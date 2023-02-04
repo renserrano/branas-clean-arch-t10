@@ -1,25 +1,30 @@
 import Produto from "./Produto";
+import CupomDesconto from "./CupomDesconto";
+import Cliente from "./Cliente";
 
 export default class Pedido {
 
     total = 0;
+    totalProdutos = 0;
+    descontoValor = 0;
     produtos: Produto[];
+    cliente: Cliente;
 
-    addProduto(produto) {
+    addProduto(produto: Produto) {
         this.produtos.push(produto);
-        this.total += (produto.preco * produto.quantidade);
+        this.totalProdutos += (produto.preco * produto.quantidade);
     }
 
     getTotal() {
-        return this.total;
+        return this.totalProdutos - this.descontoValor;
     }
 
-    aplicarCupomDesconto(cupom) {
-        return 0;
+    aplicarCupomDesconto(cupom: CupomDesconto) {
+        this.descontoValor = this.totalProdutos * (cupom.percentualDesconto/100);
     }
 
-    constructor() {
+    constructor(cliente: Cliente) {
+        this.cliente = cliente;
         this.produtos = [];
-
     }
 }
