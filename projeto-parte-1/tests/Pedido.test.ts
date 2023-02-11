@@ -29,6 +29,7 @@ test("Deve criar um pedido com 3 produtos associar cupom de desconto e calcular 
     expect(pedido.getTotal()).toBe(56.43);
 });
 
+// precisa encapsular dentro de uma arrow function senão o erro acontece antes:
 test("Não deve criar um pedido com cpf inválido, lançar erro", function () {
     expect(() => {new Pedido(new Cliente("Renan", new Cpf("497.113.620-42")))}).toThrow(InvalidCpfException);
 });
