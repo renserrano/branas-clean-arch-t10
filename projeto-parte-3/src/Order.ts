@@ -2,13 +2,18 @@ import Produto from "./Produto";
 import CupomDesconto from "./CupomDesconto";
 import Cliente from "./Cliente";
 
-export default class Pedido {
+export default class Order {
 
     total = 0;
     totalProdutos = 0;
     descontoValor = 0;
     produtos: Produto[];
     cliente: Cliente;
+
+    constructor(cliente: Cliente) {
+        this.cliente = cliente;
+        this.produtos = [];
+    }
 
     addProduto(produto: Produto) {
         if (this.produtoJaAdicionado(produto)) {
@@ -51,8 +56,11 @@ export default class Pedido {
         return totalFrete;
     }
 
-    constructor(cliente: Cliente) {
-        this.cliente = cliente;
-        this.produtos = [];
+    getNumeroSerie() {
+        return new Date().getFullYear;
+    }
+
+    getTotalProdutos () {
+        
     }
 }

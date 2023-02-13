@@ -1,4 +1,5 @@
 export default class Produto {
+    id: number;
     descricao: string;
     quantidade: number;
     preco: number;
@@ -6,7 +7,8 @@ export default class Produto {
     profundidade: number;
     altura: number;
     peso: number;
-    constructor(descricao: string, quantidade: number, preco: number, altura?: number, largura?: number, profundidade?: number, peso?: number) {
+    constructor(id: number, descricao: string, quantidade: number, preco: number, altura?: number, largura?: number, profundidade?: number, peso?: number) {
+        this.id = id;
         this.descricao = descricao;
         this.quantidade = quantidade;
         this.preco = preco;
