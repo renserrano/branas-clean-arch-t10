@@ -2,7 +2,7 @@ import InvalidCpfException from "../../InvalidCpfException";
 
 export default class Cpf {
 
-    cpf: string;
+    value: string;
 
     removerPontuacoes(str: string) {
         return str
@@ -19,7 +19,7 @@ export default class Cpf {
         if (str == undefined) {
             throw new InvalidCpfException(str);
         }
-        if ((str.length < 11) || (this.cpf.length > 14)) {
+        if ((str.length < 11) || (this.value.length > 14)) {
             throw new InvalidCpfException(str); // if (str.length >= 11 || str.length <= 14){
         }
 
@@ -65,7 +65,7 @@ export default class Cpf {
     }
 
     constructor(cpf: string) {
-        this.cpf = cpf;
+        this.value = cpf;
         this.valida(cpf);
     }
 }

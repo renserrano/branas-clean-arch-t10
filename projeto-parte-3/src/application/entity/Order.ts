@@ -2,13 +2,12 @@ import Product from "../../domain/entity/Product";
 import Cliente from "../../Cliente";
 import Item from "./Item";
 import CurrencyTable from "../../CurrencyTable";
-import FreightCalculator from "../../FreightCalculator";
+import FreightCalculator from "../../domain/entity/FreightCalculator";
 import Coupon from "../../domain/entity/Coupon";
 import crypto from "crypto";
 
 export default class Order {
 
-    total = 0;
     totalProdutos = 0;
     descontoValor = 0;
     freight = 0;
