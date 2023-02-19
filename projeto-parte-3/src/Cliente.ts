@@ -1,4 +1,4 @@
-import Cpf from "./Cpf";
+import Cpf from "./application/entity/Cpf";
 
 export default class Cliente {
 

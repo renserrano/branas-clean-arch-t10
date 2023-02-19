@@ -1,32 +1,45 @@
-drop table if exists branas.produtos;
-drop table if exists branas.pedidos;
-drop table if exists branas.pedidos_produtos;
+drop table if exists cccat10.item;
+drop table if exists cccat10.order;
+drop table if exists cccat10.coupon;
+drop table if exists cccat10.product;
 
-create table branas.produtos (
-    id int AUTO_INCREMENT primary key,
-    descricao varchar(40),
-	preco decimal(12,2),
-	altura decimal(12,2),
-	largura decimal(12,2),
-	profundidade decimal(12,2),
-	peso decimal(12,2)
+create table cccat10.product (
+	id_product integer AUTO_INCREMENT primary key,
+	description text,
+	price numeric,
+	width integer,
+	height integer,
+	length integer,
+	weight numeric,
+	currency text
 );
 
-create table branas.pedidos (
-    id int AUTO_INCREMENT primary key,
-    serie varchar(12),
-	datapedido DATE,
-	valortotal decimal(12,2),
-	valorprodutos decimal(12,2),
-	valorfrete decimal(12,2),
-	descontovalor decimal(12,2)
+insert into cccat10.product (id_product, description, price, width, height, length, weight, currency) values (1, 'A', 1000, 100, 30, 10, 3, 'BRL');
+insert into cccat10.product (id_product, description, price, width, height, length, weight, currency) values (2, 'B', 5000, 50, 50, 50, 22, 'BRL');
+insert into cccat10.product (id_product, description, price, width, height, length, weight, currency) values (3, 'C', 30, 10, 10, 10, 0.9, 'BRL');
+insert into cccat10.product (id_product, description, price, width, height, length, weight, currency) values (4, 'D', 30, -10, 10, 10, 0.9, 'BRL');
+insert into cccat10.product (id_product, description, price, width, height, length, weight, currency) values (5, 'A', 1000, 100, 30, 10, 3, 'USD');
+
+create table cccat10.coupon (
+	code text,
+	percentage numeric,
+	expire_date timestamp
 );
 
-create table branas.pedidos_produtos (
-    id int AUTO_INCREMENT primary key,
-    idproduto int,
-	quantidade decimal(12,2),
-	valorunitario decimal(12,2),
-	valortotal decimal(12,2),
-	valorfrete decimal(12,2)
+insert into cccat10.coupon (code, percentage, expire_date) values ('VALE20', 20, '2023-10-01T10:00:00');
+insert into cccat10.coupon (code, percentage, expire_date) values ('VALE10', 10, '2022-10-01T10:00:00');
+
+create table cccat10.order (
+	id_order text,
+	cpf text,
+	code text,
+	total numeric,
+	freight numeric
+);
+
+create table cccat10.item (
+	id_order text,
+	id_product integer,
+	price numeric,
+	quantity integer
 );

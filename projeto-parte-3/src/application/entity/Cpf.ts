@@ -1,4 +1,4 @@
-import InvalidCpfException from "./InvalidCpfException";
+import InvalidCpfException from "../../InvalidCpfException";
 
 export default class Cpf {
 
