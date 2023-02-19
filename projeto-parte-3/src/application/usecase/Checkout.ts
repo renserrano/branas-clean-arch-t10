@@ -30,21 +30,30 @@ export default class Checkout {
 		currencyTable.addCurrency("USD", currencies.usd);
 		const sequence = await this.orderRepository.count();
 		const order = new Order(input.uuid, new Cliente("Passar nome aqui", new Cpf(input.cpf)), currencyTable, sequence, new Date())
-
+		let freight = 0;
 		if (input.items) {
 			for (const item of input.items) {
 				const productData = await this.productRepository.getProduct(item.idProduct);
 				order.addItem(productData, item.quantity);
 				const itemFreight = FreightCalculator.calculate(productData);
+				freight += Math.max(itemFreight, 10) * item.quantity;
 			}
 		}
 		if (input.coupon) {
 			const couponData = await this.couponRepository.getCoupon(input.coupon);
 			if (!couponData.isExpired()) {
-				
+
 			}
 		}
-
+		if (input.from && input.to) {
+			order.freight = freight;
+		}
+		let total = order.getTotal();
+		await this.orderRepository.save(order);
+		return {
+			total,
+			freight
+		};
 	}
 }
 

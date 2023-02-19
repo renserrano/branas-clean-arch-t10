@@ -3,7 +3,7 @@ import Cliente from "../../Cliente";
 import Item from "./Item";
 import CurrencyTable from "../../CurrencyTable";
 import FreightCalculator from "../../FreightCalculator";
-import Coupon from "../../Coupon";
+import Coupon from "../../domain/entity/Coupon";
 import crypto from "crypto";
 
 export default class Order {
@@ -11,6 +11,7 @@ export default class Order {
     total = 0;
     totalProdutos = 0;
     descontoValor = 0;
+    freight = 0;
     readonly items: Item[];
     readonly code: string;
 
@@ -33,6 +34,7 @@ export default class Order {
         for (const item of this.items) {
             total += (item.price * item.quantity * this.currencyTable.getCurrency(item.currency));
         }
+        total += this.freight;
         return total;
     }
 
