@@ -33,15 +33,15 @@ export default class Checkout {
 		let freight = 0;
 		if (input.items) {
 			for (const item of input.items) {
-				const productData = await this.productRepository.getProduct(item.idProduct);
-				order.addItem(productData, item.quantity);
-				const itemFreight = FreightCalculator.calculate(productData);
+				const product = await this.productRepository.getProduct(item.idProduct);
+				order.addItem(product, item.quantity);
+				const itemFreight = FreightCalculator.calculate(product);
 				freight += Math.max(itemFreight, 10) * item.quantity;
 			}
 		}
 		if (input.coupon) {
-			const couponData = await this.couponRepository.getCoupon(input.coupon);
-			if (!couponData.isExpired()) {
+			const coupon = await this.couponRepository.getCoupon(input.coupon);
+			if (!coupon.isExpired(order.date)) {
 
 			}
 		}
