@@ -39,16 +39,16 @@ export default class Checkout {
 				freight += Math.max(itemFreight, 10) * item.quantity;
 			}
 		}
-		if (input.coupon) {
-			const coupon = await this.couponRepository.getCoupon(input.coupon);
-			if (!coupon.isExpired(order.date)) {
-
-			}
-		}
 		if (input.from && input.to) {
 			order.freight = freight;
 		}
 		let total = order.getTotal();
+		if (input.coupon) {
+			const coupon = await this.couponRepository.getCoupon(input.coupon);
+			if (!coupon.isExpired(order.date)) {
+				total -= coupon.calculateDiscount(total);
+			}
+		}		
 		await this.orderRepository.save(order);
 		return {
 			total,
