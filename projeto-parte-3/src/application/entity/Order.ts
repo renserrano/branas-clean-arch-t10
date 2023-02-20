@@ -15,9 +15,9 @@ export default class Order {
     readonly items: Item[];
     readonly code: string;
 
-    constructor(readonly idOrder: string | undefined, readonly cliente: Customer, readonly currencyTable: CurrencyTable = new CurrencyTable(), readonly sequence: number = 1, readonly date: Date = new Date()) {
+    constructor(readonly idOrder: string | undefined, readonly customer: Customer, readonly currencyTable: CurrencyTable = new CurrencyTable(), readonly sequence: number = 1, readonly date: Date = new Date()) {
         if (!idOrder) this.idOrder = crypto.randomUUID();
-        this.cliente = cliente;
+        this.customer = customer;
         this.items = [];
         this.code = `${date.getFullYear()}${new String(sequence).padStart(8, "0")}`;
     }
