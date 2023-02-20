@@ -11,6 +11,7 @@ export default class Order {
     totalProdutos = 0;
     descontoValor = 0;
     freight = 0;
+    coupon?: Coupon;
     readonly items: Item[];
     readonly code: string;
 
@@ -25,7 +26,11 @@ export default class Order {
         if (quantity <= 0) throw new Error("A quantidade do item não pode ser negativa");
         if (this.items.some((item: Item) => item.idProduct === product.idProduct)) throw new Error("Este item já foi incluido");
         this.items.push(new Item(product.idProduct, product.price, quantity, product.currency));
-        this.totalProdutos += (product.price * quantity);        
+        this.totalProdutos += (product.price * quantity);
+    }
+
+    addCoupon(coupon: Coupon) {
+        if (!coupon.isExpired(this.date)) this.coupon = coupon;
     }
 
     getTotal() {
@@ -33,13 +38,16 @@ export default class Order {
         for (const item of this.items) {
             total += (item.price * item.quantity * this.currencyTable.getCurrency(item.currency));
         }
+        if (this.coupon) {
+            total -= this.coupon.calculateDiscount(total);
+        }      
         total += this.freight;
         return total;
     }
 
     aplicarCupomDesconto(coupon: Coupon) {
         if (coupon.isExpired(new Date())) {
-            this.descontoValor = this.totalProdutos * (coupon.percentage/100);
+            this.descontoValor = this.totalProdutos * (coupon.percentage / 100);
         }
     }
 
