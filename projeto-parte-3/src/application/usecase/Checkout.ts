@@ -1,4 +1,4 @@
-import Cliente from "../../Cliente"
+import Customer from "../../Customer"
 import CouponRepository from "../../CouponRepository"
 import CouponRepositoryDatabase from "../../CouponRepositoryDatabase"
 import CurrencyGateway from "../../CurrencyGateway"
@@ -10,7 +10,6 @@ import OrderRepositoryDatabase from "../../OrderRepositoryDatabase"
 import ProductRepository from "../../ProductRepository"
 import ProductRepositoryDatabase from "../../ProductRepositoryDatabase"
 import Cpf from "../entity/Cpf"
-import Item from "../entity/Item"
 import Order from "../entity/Order"
 
 export default class Checkout {
@@ -29,7 +28,7 @@ export default class Checkout {
 		const currencyTable = new CurrencyTable();
 		currencyTable.addCurrency("USD", currencies.usd);
 		const sequence = await this.orderRepository.count();
-		const order = new Order(input.uuid, new Cliente("Passar nome aqui", new Cpf(input.cpf)), currencyTable, sequence, new Date())
+		const order = new Order(input.uuid, new Customer("Passar nome aqui", new Cpf(input.cpf)), currencyTable, sequence, new Date())
 		let freight = 0;
 		if (input.items) {
 			for (const item of input.items) {

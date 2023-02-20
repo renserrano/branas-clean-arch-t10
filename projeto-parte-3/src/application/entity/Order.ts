@@ -1,5 +1,5 @@
 import Product from "../../domain/entity/Product";
-import Cliente from "../../Cliente";
+import Customer from "../../Customer";
 import Item from "./Item";
 import CurrencyTable from "../../domain/entity/CurrencyTable";
 import FreightCalculator from "../../domain/entity/FreightCalculator";
@@ -15,7 +15,7 @@ export default class Order {
     readonly items: Item[];
     readonly code: string;
 
-    constructor(readonly idOrder: string | undefined, readonly cliente: Cliente, readonly currencyTable: CurrencyTable = new CurrencyTable(), readonly sequence: number = 1, readonly date: Date = new Date()) {
+    constructor(readonly idOrder: string | undefined, readonly cliente: Customer, readonly currencyTable: CurrencyTable = new CurrencyTable(), readonly sequence: number = 1, readonly date: Date = new Date()) {
         if (!idOrder) this.idOrder = crypto.randomUUID();
         this.cliente = cliente;
         this.items = [];
