@@ -1,7 +1,7 @@
 import Product from "../../domain/entity/Product";
 import Cliente from "../../Cliente";
 import Item from "./Item";
-import CurrencyTable from "../../CurrencyTable";
+import CurrencyTable from "../../domain/entity/CurrencyTable";
 import FreightCalculator from "../../domain/entity/FreightCalculator";
 import Coupon from "../../domain/entity/Coupon";
 import crypto from "crypto";
@@ -23,8 +23,8 @@ export default class Order {
     }
 
     addItem(product: Product, quantity: number) {
-        if (quantity <= 0) throw new Error("A quantidade do item não pode ser negativa");
-        if (this.items.some((item: Item) => item.idProduct === product.idProduct)) throw new Error("Este item já foi incluido");
+        if (quantity <= 0) throw new Error("Invalid quantity");
+        if (this.items.some((item: Item) => item.idProduct === product.idProduct)) throw new Error("Duplicated item");
         this.items.push(new Item(product.idProduct, product.price, quantity, product.currency));
         this.totalProdutos += (product.price * quantity);
     }
@@ -43,12 +43,6 @@ export default class Order {
         }      
         total += this.freight;
         return total;
-    }
-
-    aplicarCupomDesconto(coupon: Coupon) {
-        if (coupon.isExpired(new Date())) {
-            this.descontoValor = this.totalProdutos * (coupon.percentage / 100);
-        }
     }
 
     getTotalFrete() {
