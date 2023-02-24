@@ -36,13 +36,12 @@ export default class Order {
         let total = 0;
         for (const item of this.items) {
             total += (item.price * item.quantity * this.currencyTable.getCurrency(item.currency));
-            //console.log(total);
         }
         if (this.coupon) {
             total -= this.coupon.calculateDiscount(total);
         }      
         total += this.freight;
-        return total;
+        return +(total.toFixed(2));
     }
 
     getCode() {
