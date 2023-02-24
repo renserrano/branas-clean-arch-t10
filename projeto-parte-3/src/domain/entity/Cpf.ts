@@ -1,5 +1,3 @@
-import InvalidCpfException from "../../InvalidCpfException";
-
 export default class Cpf {
 
     value: string;
@@ -14,19 +12,19 @@ export default class Cpf {
 
     valida(str: string) {
         if (str == null) {
-            throw new InvalidCpfException(str);
+            throw new Error("Invalid cpf");
         }
         if (str == undefined) {
-            throw new InvalidCpfException(str);
+            throw new Error("Invalid cpf");
         }
         if ((str.length < 11) || (this.value.length > 14)) {
-            throw new InvalidCpfException(str); // if (str.length >= 11 || str.length <= 14){
+            throw new Error("Invalid cpf"); // if (str.length >= 11 || str.length <= 14){
         }
 
         str = this.removerPontuacoes(str);
 
         if (str.split("").every(c => c === str[0])) {
-            throw new InvalidCpfException(str);
+            throw new Error("Invalid cpf");
         }
 
         try {
@@ -57,10 +55,10 @@ export default class Cpf {
             let nDigVerific = str.substring(str.length - 2, str.length);
             nDigResult = "" + dg1 + "" + dg2;
             if (nDigVerific != nDigResult) {
-                throw new InvalidCpfException("Validação falhou");
+                throw new Error("Invalid cpf");
             };
         } catch (e: any) {
-            throw new InvalidCpfException(e.message);
+            throw new Error("Invalid cpf");
         }
     }
 
