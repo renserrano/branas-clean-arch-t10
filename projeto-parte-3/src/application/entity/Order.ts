@@ -2,7 +2,6 @@ import Product from "../../domain/entity/Product";
 import Customer from "../../Customer";
 import Item from "./Item";
 import CurrencyTable from "../../domain/entity/CurrencyTable";
-import FreightCalculator from "../../domain/entity/FreightCalculator";
 import Coupon from "../../domain/entity/Coupon";
 import crypto from "crypto";
 
@@ -37,25 +36,13 @@ export default class Order {
         let total = 0;
         for (const item of this.items) {
             total += (item.price * item.quantity * this.currencyTable.getCurrency(item.currency));
+            //console.log(total);
         }
         if (this.coupon) {
             total -= this.coupon.calculateDiscount(total);
         }      
         total += this.freight;
         return total;
-    }
-
-    getTotalFrete() {
-        // let totalFrete = 0;        
-        // for (const produto of this.items) {
-        //     FreightCalculator.calculate()
-        //     const volume = ((produto.largura/100) * (produto.altura/100) * (produto.profundidade/100));
-        //     const densidade = produto.peso / volume;
-        //     const freteUnitario = 1000 * volume * (densidade/100);
-        //     totalFrete += Math.max(freteUnitario, 10) * produto.quantidade;
-        //  }
-        // return totalFrete;
-        return 0;
     }
 
     getCode() {

@@ -23,7 +23,7 @@ export default class OrderRepositoryDatabase implements OrderRepository {
 
     async save(order: Order): Promise<void> {
         await this.connection.query("insert into cccat10.order (id_order, cpf, code, total, freight) values (?, ?, ?, ?, ?)",
-            [order.idOrder, order.cliente.cpf.value, order.code, order.getTotal(), order.freight]);
+            [order.idOrder, order.customer.cpf.value, order.code, order.getTotal(), order.freight]);
 
         for (const item of order.items) {
             await this.connection.query("insert into cccat10.item (id_order, id_product, price, quantity) values (?, ?, ?, ?)",

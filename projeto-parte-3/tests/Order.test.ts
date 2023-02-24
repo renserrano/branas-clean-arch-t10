@@ -7,6 +7,8 @@ import OrderRepositoryDatabase from "../src/OrderRepositoryDatabase";
 import crypto from "crypto";
 import Product from "../src/domain/entity/Product";
 import Coupon from "../src/domain/entity/Coupon";
+import FreightCalculator from "../src/domain/entity/FreightCalculator";
+import CurrencyTable from "../src/domain/entity/CurrencyTable";
 
 test("Deve criar um order com 3 produtos e calcular o total", function () {
     const uuid = crypto.randomUUID();
@@ -48,21 +50,21 @@ test("Não deve aplicar cupom de desconto expirado", function () {
 test("Ao fazer um order a quantidade do item não pode ser negativa", function () {
     const uuid = crypto.randomUUID();
     const order = new Order(uuid, new Customer("Renan", new Cpf("497.703.620-42")));
-    expect(() => { order.addItem(new Product(1, "A", 36.0, 10, 10, 10, 10, "BRL"), -1) }).toThrowError("A quantidade do item não pode ser negativa");
+    expect(() => { order.addItem(new Product(1, "A", 36.0, 10, 10, 10, 10, "BRL"), -1) }).toThrowError("Invalid quantity");
 });
 
 test("Ao fazer um order o mesmo item não pode ser inserido mais de uma vez", function () {
     const uuid = crypto.randomUUID();
     const order = new Order(uuid, new Customer("Renan", new Cpf("497.703.620-42")));
     expect(() => { order.addItem(new Product(1, "A", 36.0, 10, 10, 10, 10, "BRL"), 1),
-                   order.addItem(new Product(2, "B", 36.0, 10, 10, 10, 10, "BRL"), 2)
-    }).toThrowError("Este item já foi incluido");
+                   order.addItem(new Product(1, "A", 36.0, 10, 10, 10, 10, "BRL"), 2)
+    }).toThrowError("Duplicated item");
 });
 
 test("Nenhuma dimensão do item pode ser negativa", function () {
     const uuid = crypto.randomUUID();
     const order = new Order(uuid, new Customer("Renan", new Cpf("497.703.620-42")));
-    expect(() => { order.addItem(new Product(1, "Produto 1", 1.0, 36.0, 20, -15, 10, "BRL"), 1)  }).toThrowError("As dimenções do produto não podem ser negativas");
+    expect(() => { order.addItem(new Product(1, "Produto 1", 1.0, 36.0, 20, -15, 10, "BRL"), 1)  }).toThrowError("Invalid dimension");
 });
 
 test("O peso do item não pode ser negativo", function () {
@@ -70,33 +72,29 @@ test("O peso do item não pode ser negativo", function () {
     expect(() => {  const order = new Order(uuid, new Customer("Renan", new Cpf("497.703.620-42")));
                     order.addItem(new Product(1, "A", 36.0, 10, 10, 10, -1, "BRL"), 1)
                     order.addItem(new Product(2, "B", 36.0, 10, 10, 10, 10, "BRL"), 1)
-    }).toThrowError("O peso do item não pode ser negativo");
+    }).toThrowError("Invalid dimension");
 });
 
 test("Deve calcular o valor do frete com base nas dimensões (altura, largura, profundidade em cm) e o peso dos produtos (em KG)", function () {   
-    const uuid = crypto.randomUUID();
-    const order = new Order(uuid, new Customer("Renan", new Cpf("497.703.620-42")));
-    order.addItem(new Product(1, "Guitarra", 30.0, 100, 30, 10, 3, "BRL"), 1);
-    expect(order.getTotalFrete()).toBe(30);
+    expect(FreightCalculator.calculate(new Product(1, "Guitarra", 30.0, 100, 30, 10, 3, "BRL"))).toBe(30);
 });
 
 test("Deve retornar o preço mínimo de frete caso ele seja superior ao valor calculado", function () {
-    const uuid = crypto.randomUUID();
-    const order = new Order(uuid, new Customer("Renan", new Cpf("497.703.620-42")));
-    order.addItem(new Product(1, "Camera", 130.00, 20, 15, 10, 1, "BRL"), 1);
-    expect(order.getTotalFrete()).toBe(10);
+    expect(FreightCalculator.calculate(new Product(1, "Camera", 130.00, 20, 15, 10, 1, "BRL"))).toBe(10);
 });
 
-test("Deve fazer um order salvando no banco de dados", function () {
+test("Deve fazer um order salvando no banco de dados", async function () {
     const uuid = crypto.randomUUID();
     const order = new Order(uuid, new Customer("Renan", new Cpf("497.703.620-42")));
     order.addItem(new Product(1, "Camera", 130.00, 20, 15, 10, 1, "BRL"), 1);    
-    const ordergateway = new OrderRepositoryDatabase(new MySqlAdapter());
-    expect(ordergateway.save(order)).toBe(true);
+    const repository = new OrderRepositoryDatabase(new MySqlAdapter());
+    await repository.save(order);
+    const orderGet = await repository.get(uuid);
+    expect(orderGet.idOrder).toBe(order.idOrder);
 });
 
 test("Deve gerar um número de série do order", function () {
     const uuid = crypto.randomUUID();
-    const order = new Order(uuid, new Customer("Renan", new Cpf("497.703.620-42")));
-    expect(order.getCode).toBe(new Date().getFullYear);
+    const order = new Order(uuid, new Customer("Renan", new Cpf("497.703.620-42")), new CurrencyTable(), 1);
+    expect(order.getCode()).toBe("202300000001");
 });

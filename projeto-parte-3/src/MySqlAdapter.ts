@@ -1,17 +1,19 @@
 import Connection from "./Connection";
-import msq from "mysql";
+import mysql from 'mysql2/promise';
 
 export default class MySqlAdapter implements Connection {
 
     async query(statement: string, params: any): Promise<any> {
-        const connection = msq.createConnection({
+
+        const connection = await mysql.createConnection({
             host: "localhost",
             user: "root",
             password: "renaty1129",
             database: "branas"
         });
-        const result = connection.query(statement, params);
-        connection.end();
+
+        const [result] = await connection.query(statement, params);
+        await connection.end();
         return result;
     }
 }
