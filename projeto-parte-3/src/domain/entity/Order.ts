@@ -1,8 +1,8 @@
-import Product from "../../domain/entity/Product";
+import Product from "./Product";
 import Customer from "../../Customer";
 import Item from "./Item";
-import CurrencyTable from "../../domain/entity/CurrencyTable";
-import Coupon from "../../domain/entity/Coupon";
+import CurrencyTable from "./CurrencyTable";
+import Coupon from "./Coupon";
 import crypto from "crypto";
 
 export default class Order {

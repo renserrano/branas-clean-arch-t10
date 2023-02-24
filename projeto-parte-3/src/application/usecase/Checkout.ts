@@ -9,8 +9,8 @@ import OrderRepository from "../../OrderRepository"
 import OrderRepositoryDatabase from "../../OrderRepositoryDatabase"
 import ProductRepository from "../../ProductRepository"
 import ProductRepositoryDatabase from "../../ProductRepositoryDatabase"
-import Cpf from "../entity/Cpf"
-import Order from "../entity/Order"
+import Cpf from "../../domain/entity/Cpf"
+import Order from "../../domain/entity/Order"
 
 export default class Checkout {
 

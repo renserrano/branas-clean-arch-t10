@@ -1,4 +1,4 @@
-import Cpf from "./application/entity/Cpf";
+import Cpf from "./domain/entity/Cpf";
 
 export default class Customer {
 
