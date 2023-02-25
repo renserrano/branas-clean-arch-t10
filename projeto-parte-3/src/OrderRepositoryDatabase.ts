@@ -35,4 +35,18 @@ export default class OrderRepositoryDatabase implements OrderRepository {
         const [options] = await this.connection.query("select count(*) from cccat10.order", []);
         return parseInt(options.count);
     };
+
+    async all(): Promise<Order[]> {
+        const ordersData = await this.connection.query("select * from cccat10.order", []);
+        let Orders: Order[] = [];
+        for (const orderData of ordersData) {
+            let order: Order = new Order(orderData.id_order, new Customer("teste", new Cpf("653.497.160-77")), undefined, 1, new Date())
+            const itemsData = await this.connection.query("select * from cccat10.item where id_order = ?", [orderData.id_order]);
+            for (const itemData of itemsData) {
+                order.items.push(new Item(itemData.id_product, parseFloat(itemData.price), itemData.quantity, "BRL"));
+            }
+            Orders.push(order);
+        }
+        return Orders;
+    };
 }
