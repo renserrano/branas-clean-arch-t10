@@ -2,6 +2,7 @@ drop table if exists cccat10.item;
 drop table if exists cccat10.order;
 drop table if exists cccat10.coupon;
 drop table if exists cccat10.product;
+drop table if exists cccat10.cep;
 
 create table cccat10.product (
 	id_product integer AUTO_INCREMENT primary key,
@@ -43,3 +44,12 @@ create table cccat10.item (
 	price numeric,
 	quantity integer
 );
+
+create table cccat10.cep (
+	cep VARCHAR(8) primary key,
+	latitude decimal(11,8),
+	longitude decimal(11,8)
+);
+
+insert into cccat10.cep (cep, latitude, longitude) values ('14055090', -21.155113, -47.8306911);
+insert into cccat10.cep (cep, latitude, longitude) values ('14094000', -21.1933669, -47.75158159999999);
