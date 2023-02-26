@@ -88,7 +88,7 @@ test("Deve fazer um order salvando no banco de dados", async function () {
     order.addItem(new Product(1, "Camera", 130.00, 20, 15, 10, 1, "BRL"), 1);    
     const repository = new OrderRepositoryDatabase(new MySqlAdapter());
     await repository.save(order);
-    const orderGet = await repository.get(uuid);
+    const orderGet = await repository.getById(uuid);
     expect(orderGet.idOrder).toBe(order.idOrder);
 });
 

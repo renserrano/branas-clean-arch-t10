@@ -11,7 +11,7 @@ export default class OrderRepositoryDatabase implements OrderRepository {
     constructor(readonly connection: Connection = new MySqlAdapter()) {
     }
 
-    async get(id: string): Promise<Order> {
+    async getById(id: string): Promise<Order> {
         const [orderData] = await this.connection.query("select * from cccat10.order where id_order = ?", [id]);
         const order = new Order(orderData.id_order, new Customer("teste", new Cpf("653.497.160-77")), undefined, 1, new Date());
         const itemsData = await this.connection.query("select * from cccat10.item where id_order = ?", [id]);
@@ -49,4 +49,14 @@ export default class OrderRepositoryDatabase implements OrderRepository {
         }
         return Orders;
     };
+
+    async getByCode(code: string): Promise<Order> {
+        const [orderData] = await this.connection.query("select * from cccat10.order where code = ?", [code]);
+        const order = new Order(orderData.id_order, new Customer("teste", new Cpf("653.497.160-77")), undefined, 1, new Date());
+        const itemsData = await this.connection.query("select * from cccat10.item where id_order = ?", [orderData.id_order]);
+        for (const itemData of itemsData) {
+            order.items.push(new Item(itemData.id_product, parseFloat(itemData.price), itemData.quantity, "BRL"));
+        }
+        return order;
+    }
 }
