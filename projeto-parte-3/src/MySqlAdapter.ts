@@ -8,7 +8,7 @@ export default class MySqlAdapter implements Connection {
         const connection = await mysql.createConnection({
             host: "localhost",
             user: "root",
-            password: "renaty1129",
+            password: "",
             database: "branas"
         });
 
