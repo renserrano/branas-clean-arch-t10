@@ -1,10 +1,10 @@
 import Customer from "../../domain/entity/Customer";
-import CouponRepository from "../../CouponRepository";
+import CouponRepository from "../repository/CouponRepository";
 import CurrencyGateway from "../gateway/CurrencyGateway";
 import CurrencyTable from "../../domain/entity/CurrencyTable";
 import FreightCalculator from "../../domain/entity/FreightCalculator";
-import OrderRepository from "../../OrderRepository";
-import ProductRepository from "../../ProductRepository";
+import OrderRepository from "../repository/OrderRepository";
+import ProductRepository from "../repository/ProductRepository";
 import Cpf from "../../domain/entity/Cpf";
 import Order from "../../domain/entity/Order";
 

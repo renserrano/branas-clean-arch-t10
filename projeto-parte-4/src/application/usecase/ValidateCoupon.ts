@@ -1,4 +1,4 @@
-import CouponRepository from "../../CouponRepository";
+import CouponRepository from "../repository/CouponRepository";
 import CouponRepositoryDatabase from "../../infra/repository/CouponRepositoryDatabase";
 
 export default class ValidateCoupon {

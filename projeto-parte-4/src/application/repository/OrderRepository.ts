@@ -1,4 +1,4 @@
-import Order from "./domain/entity/Order";
+import Order from "../../domain/entity/Order";
 
 export default interface OrderRepository {
     getById(id: string): Promise<Order>;

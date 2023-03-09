@@ -3,15 +3,15 @@ import AxiosAdapter from "../src/infra/http/AxiosAdapter";
 import CLIController from "../src/infra/cli/CLIController";
 import CLIHandler from "../src/infra/cli/CLIHandler";
 import Connection from "../src/infra/database/Connection";
-import CouponRepository from "../src/CouponRepository";
+import CouponRepository from "../src/application/repository/CouponRepository";
 import CouponRepositoryDatabase from "../src/infra/repository/CouponRepositoryDatabase";
 import CurrencyGateway from "../src/application/gateway/CurrencyGateway";
 import CurrencyGatewayHttp from "../src/infra/gateway/CurrencyGatewayHttp";
 import HttpClient from "../src/infra/http/HttpClient";
 import MySqlAdapter from "../src/infra/database/MySqlAdapter";
-import OrderRepository from "../src/OrderRepository";
+import OrderRepository from "../src/application/repository/OrderRepository";
 import OrderRepositoryDatabase from "../src/infra/repository/OrderRepositoryDatabase";
-import ProductRepository from "../src/ProductRepository";
+import ProductRepository from "../src/application/repository/ProductRepository";
 import ProductRepositoryDatabase from "../src/infra/repository/ProductRepositoryDatabase";
 
 let connection: Connection;

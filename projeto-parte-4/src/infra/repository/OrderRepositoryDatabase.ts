@@ -3,7 +3,7 @@ import Item from "../../domain/entity/Item";
 import Order from "../../domain/entity/Order";
 import Customer from "../../domain/entity/Customer";
 import Connection from "../database/Connection";
-import OrderRepository from "../../OrderRepository";
+import OrderRepository from "../../application/repository/OrderRepository";
 
 export default class OrderRepositoryDatabase implements OrderRepository {
 

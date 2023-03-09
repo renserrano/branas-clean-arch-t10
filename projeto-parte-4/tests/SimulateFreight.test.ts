@@ -2,7 +2,7 @@ import SimulateFreight from "../src/application/usecase/SimulateFreight";
 import Connection from "../src/infra/database/Connection";
 import CurrencyGatewayHttp from "../src/infra/gateway/CurrencyGatewayHttp";
 import MySqlAdapter from "../src/infra/database/MySqlAdapter";
-import ProductRepository from "../src/ProductRepository";
+import ProductRepository from "../src/application/repository/ProductRepository";
 import ProductRepositoryDatabase from "../src/infra/repository/ProductRepositoryDatabase";
 
 let simulateFreight: SimulateFreight;

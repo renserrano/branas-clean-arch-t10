@@ -4,15 +4,15 @@ import CurrencyGatewayHttp from "../src/infra/gateway/CurrencyGatewayHttp";
 import ProductRepositoryDatabase from "../src/infra/repository/ProductRepositoryDatabase";
 import CouponRepositoryDatabase from "../src/infra/repository/CouponRepositoryDatabase";
 import CurrencyGateway from "../src/application/gateway/CurrencyGateway";
-import ProductRepository from "../src/ProductRepository";
+import ProductRepository from "../src/application/repository/ProductRepository";
 import crypto from "crypto";
 import GetOrder from "../src/application/usecase/GetOrder";
 import OrderRepositoryDatabase from "../src/infra/repository/OrderRepositoryDatabase";
 import Product from "../src/domain/entity/Product";
 import MySqlAdapter from "../src/infra/database/MySqlAdapter";
 import Connection from "../src/infra/database/Connection";
-import CouponRepository from "../src/CouponRepository";
-import OrderRepository from "../src/OrderRepository";
+import CouponRepository from "../src/application/repository/CouponRepository";
+import OrderRepository from "../src/application/repository/OrderRepository";
 import AxiosAdapter from "../src/infra/http/AxiosAdapter";
 import HttpClient from "../src/infra/http/HttpClient";
 
