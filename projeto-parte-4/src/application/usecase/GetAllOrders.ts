@@ -1,10 +1,9 @@
 import OrderRepository from "../../OrderRepository";
-import OrderRepositoryDatabase from "../../OrderRepositoryDatabase";
 
 export default class GetAllOrders {
 
     constructor(
-        readonly orderRepository: OrderRepository = new OrderRepositoryDatabase()
+        readonly orderRepository: OrderRepository
     ) {
     }
 

@@ -1,14 +1,13 @@
-import Cpf from "./domain/entity/Cpf";
-import Item from "./domain/entity/Item";
-import Order from "./domain/entity/Order";
-import Customer from "./Customer";
-import Connection from "./Connection";
-import MySqlAdapter from "./MySqlAdapter";
-import OrderRepository from "./OrderRepository";
+import Cpf from "../../domain/entity/Cpf";
+import Item from "../../domain/entity/Item";
+import Order from "../../domain/entity/Order";
+import Customer from "../../domain/entity/Customer";
+import Connection from "../database/Connection";
+import OrderRepository from "../../OrderRepository";
 
 export default class OrderRepositoryDatabase implements OrderRepository {
 
-    constructor(readonly connection: Connection = new MySqlAdapter()) {
+    constructor(readonly connection: Connection) {
     }
 
     async getById(id: string): Promise<Order> {

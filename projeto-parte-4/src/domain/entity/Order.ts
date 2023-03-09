@@ -1,5 +1,5 @@
 import Product from "./Product";
-import Customer from "../../Customer";
+import Customer from "./Customer";
 import Item from "./Item";
 import CurrencyTable from "./CurrencyTable";
 import Coupon from "./Coupon";

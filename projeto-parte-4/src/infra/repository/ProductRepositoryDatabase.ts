@@ -1,11 +1,10 @@
-import Product from "./domain/entity/Product";
-import ProductRepository from "./ProductRepository";
-import Connection from "./Connection";
-import MySqlAdapter from "./MySqlAdapter";
+import Product from "../../domain/entity/Product";
+import ProductRepository from "../../ProductRepository";
+import Connection from "../database/Connection";
 
 export default class ProductRepositoryDatabase implements ProductRepository {
     
-    constructor(readonly connection: Connection = new MySqlAdapter()) {
+    constructor(readonly connection: Connection) {
     }
 
     async getProduct(idProduct: number): Promise<Product> {

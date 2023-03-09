@@ -1,11 +1,10 @@
 import FreightCalculator from "../../domain/entity/FreightCalculator";
 import ProductRepository from "../../ProductRepository";
-import ProductRepositoryDatabase from "../../ProductRepositoryDatabase";
 
 export default class SimulateFreight {
 
     constructor(
-        readonly productRepository: ProductRepository = new ProductRepositoryDatabase()
+        readonly productRepository: ProductRepository
     ) {
     }
 

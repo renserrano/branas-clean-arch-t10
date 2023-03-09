@@ -1,24 +1,20 @@
-import Customer from "../../Customer"
-import CouponRepository from "../../CouponRepository"
-import CouponRepositoryDatabase from "../../CouponRepositoryDatabase"
-import CurrencyGateway from "../../CurrencyGateway"
-import CurrencyGatewayHttp from "../../CurrencyGatewayHttp"
-import CurrencyTable from "../../domain/entity/CurrencyTable"
-import FreightCalculator from "../../domain/entity/FreightCalculator"
-import OrderRepository from "../../OrderRepository"
-import OrderRepositoryDatabase from "../../OrderRepositoryDatabase"
-import ProductRepository from "../../ProductRepository"
-import ProductRepositoryDatabase from "../../ProductRepositoryDatabase"
-import Cpf from "../../domain/entity/Cpf"
-import Order from "../../domain/entity/Order"
+import Customer from "../../domain/entity/Customer";
+import CouponRepository from "../../CouponRepository";
+import CurrencyGateway from "../gateway/CurrencyGateway";
+import CurrencyTable from "../../domain/entity/CurrencyTable";
+import FreightCalculator from "../../domain/entity/FreightCalculator";
+import OrderRepository from "../../OrderRepository";
+import ProductRepository from "../../ProductRepository";
+import Cpf from "../../domain/entity/Cpf";
+import Order from "../../domain/entity/Order";
 
 export default class Checkout {
 
 	constructor(
-		readonly currencyGateway: CurrencyGateway = new CurrencyGatewayHttp(),
-		readonly productRepository: ProductRepository = new ProductRepositoryDatabase(),
-		readonly couponRepository: CouponRepository = new CouponRepositoryDatabase(),
-		readonly orderRepository: OrderRepository = new OrderRepositoryDatabase()
+		readonly currencyGateway: CurrencyGateway,
+		readonly productRepository: ProductRepository,
+		readonly couponRepository: CouponRepository,
+		readonly orderRepository: OrderRepository
 	) {
 
 	}

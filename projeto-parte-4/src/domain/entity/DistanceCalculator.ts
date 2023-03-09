@@ -1,4 +1,4 @@
-import Cep from "./domain/entity/Cep";
+import Cep from "./Cep";
 
 export default class DistanceCalculator {
 

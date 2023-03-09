@@ -1,10 +1,10 @@
 import CouponRepository from "../../CouponRepository";
-import CouponRepositoryDatabase from "../../CouponRepositoryDatabase";
+import CouponRepositoryDatabase from "../../infra/repository/CouponRepositoryDatabase";
 
 export default class ValidateCoupon {
 
     constructor(
-        readonly couponRepository: CouponRepository = new CouponRepositoryDatabase()
+        readonly couponRepository: CouponRepository
     ) {
     }
 

@@ -19,4 +19,7 @@ export default class MySqlAdapter implements Connection {
         await connection.end();
         return result;
     }
+    async close(): Promise<void> {
+        // await this.connection.end();
+    }
 }

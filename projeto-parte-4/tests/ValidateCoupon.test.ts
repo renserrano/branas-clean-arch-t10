@@ -1,9 +1,21 @@
 import ValidateCoupon from "../src/application/usecase/ValidateCoupon";
+import Connection from "../src/infra/database/Connection";
+import CouponRepository from "../src/CouponRepository";
+import CouponRepositoryDatabase from "../src/infra/repository/CouponRepositoryDatabase";
+import MySqlAdapter from "../src/infra/database/MySqlAdapter";
 
 let validateCoupon: ValidateCoupon;
+let couponRepository: CouponRepository;
+let connection: Connection;
 
 beforeEach(function () {
-    validateCoupon = new ValidateCoupon();
+    connection = new MySqlAdapter();
+    couponRepository = new CouponRepositoryDatabase(connection);
+    validateCoupon = new ValidateCoupon(couponRepository);
+});
+
+afterEach(async function () {
+    await connection.close();
 });
 
 test("Deve validar um cupom de desconto válido", async function () {

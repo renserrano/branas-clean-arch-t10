@@ -1,4 +1,4 @@
-import DistanceCalculator from "../src/DistanceCalculator";
+import DistanceCalculator from "../src/domain/entity/DistanceCalculator";
 import Cep from "../src/domain/entity/Cep";
 
 test("Deve calcular a distância entre duas coordenadas", function () {
