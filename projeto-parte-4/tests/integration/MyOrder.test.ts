@@ -1,13 +1,13 @@
-import Customer from "../src/domain/entity/Customer";
-import Order from "../src/domain/entity/Order";
-import Cpf from "../src/domain/entity/Cpf";
-import MySqlAdapter from "../src/infra/database/MySqlAdapter";
-import OrderRepositoryDatabase from "../src/infra/repository/OrderRepositoryDatabase";
+import Customer from "../../src/domain/entity/Customer";
+import Order from "../../src/domain/entity/Order";
+import Cpf from "../../src/domain/entity/Cpf";
+import MySqlAdapter from "../../src/infra/database/MySqlAdapter";
+import OrderRepositoryDatabase from "../../src/infra/repository/OrderRepositoryDatabase";
 import crypto from "crypto";
-import Product from "../src/domain/entity/Product";
-import Coupon from "../src/domain/entity/Coupon";
-import FreightCalculator from "../src/domain/entity/FreightCalculator";
-import CurrencyTable from "../src/domain/entity/CurrencyTable";
+import Product from "../../src/domain/entity/Product";
+import Coupon from "../../src/domain/entity/Coupon";
+import FreightCalculator from "../../src/domain/entity/FreightCalculator";
+import CurrencyTable from "../../src/domain/entity/CurrencyTable";
 
 test("Deve criar um order com 3 produtos e calcular o total", function () {
     const uuid = crypto.randomUUID();

@@ -1,8 +1,8 @@
-import ValidateCoupon from "../src/application/usecase/ValidateCoupon";
-import Connection from "../src/infra/database/Connection";
-import CouponRepository from "../src/application/repository/CouponRepository";
-import CouponRepositoryDatabase from "../src/infra/repository/CouponRepositoryDatabase";
-import MySqlAdapter from "../src/infra/database/MySqlAdapter";
+import ValidateCoupon from "../../src/application/usecase/ValidateCoupon";
+import Connection from "../../src/infra/database/Connection";
+import CouponRepository from "../../src/application/repository/CouponRepository";
+import CouponRepositoryDatabase from "../../src/infra/repository/CouponRepositoryDatabase";
+import MySqlAdapter from "../../src/infra/database/MySqlAdapter";
 
 let validateCoupon: ValidateCoupon;
 let couponRepository: CouponRepository;

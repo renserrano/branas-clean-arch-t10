@@ -1,5 +1,5 @@
-import DistanceCalculator from "../src/domain/entity/DistanceCalculator";
-import Cep from "../src/domain/entity/Cep";
+import DistanceCalculator from "../../src/domain/entity/DistanceCalculator";
+import Cep from "../../src/domain/entity/Cep";
 
 test("Deve calcular a distância entre duas coordenadas", function () {
     const to = new Cep("", -27.5945, -48.5477);
