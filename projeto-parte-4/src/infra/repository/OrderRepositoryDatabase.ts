@@ -50,8 +50,9 @@ export default class OrderRepositoryDatabase implements OrderRepository {
     };
 
     async getByCode(code: string): Promise<Order> {
+        const sequence = parseInt(code.slice(5, code.length));
         const [orderData] = await this.connection.query("select * from cccat10.order where code = ?", [code]);
-        const order = new Order(orderData.id_order, new Customer("teste", new Cpf("653.497.160-77")), undefined, 1, new Date());
+        const order = new Order(orderData.id_order, new Customer("teste", new Cpf("653.497.160-77")), undefined, sequence, new Date());
         const itemsData = await this.connection.query("select * from cccat10.item where id_order = ?", [orderData.id_order]);
         for (const itemData of itemsData) {
             order.items.push(new Item(itemData.id_product, parseFloat(itemData.price), itemData.quantity, "BRL"));
