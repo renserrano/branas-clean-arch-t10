@@ -8,6 +8,7 @@ import HttpController from "./infra/http/HttpController";
 import MySqlAdapter from "./infra/database/MySqlAdapter";
 import OrderRepositoryDatabase from "./infra/repository/OrderRepositoryDatabase";
 import ProductRepositoryDatabase from "./infra/repository/ProductRepositoryDatabase";
+import GetProducts from "./application/usecase/GetProducts";
 
 const connection = new MySqlAdapter();
 const httpClient = new AxiosAdapter();
@@ -16,7 +17,8 @@ const productRepository = new ProductRepositoryDatabase(connection);
 const couponRepository = new CouponRepositoryDatabase(connection);
 const orderRepository = new OrderRepositoryDatabase(connection);
 const checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository);
+const getProducts = new GetProducts(productRepository);
 const httpServer = new ExpressAdapter();
 //const httpServer = new HapiHttpServer();
-new HttpController(httpServer, checkout);
+new HttpController(httpServer, checkout, getProducts);
 httpServer.listen(3000);

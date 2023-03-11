@@ -1,0 +1,59 @@
+
+yarn init -y
+#iniciar um projeto
+
+yarn add express @types/express
+#instalar o express e suas informormações de tipagem
+
+yarn add typescript
+#instalar o typescript
+
+npx tsc --init
+# cria o tsconfig.json com as configurações e preferências do transpilador TypeScript
+
+yarn add nodemon
+# instala o nodemon ao projeto.
+
+yarn add ts-node
+# instalar o ts-node ao projeto
+
+
+----- vue js ------
+
+yarn create vite
+# ferramenta scafold, eexcutar testes usando vtestes
+
+# dentro da pasta do projeto:
+yarn install
+# instalar as dependências
+
+yarn dev
+# vai startar em uma porta, exemplo: 5173
+
+yarn add vitest
+# instala biblioteca de testes do vue @vue/test-utils happy-dom
+
+# ir no package.json e criar dentro "scripts"
+  "test": "vitest --dom"
+# com isso pode chamar desse modo nos testes: yarn test
+
+# no arquivo vite.config.ts, adicionar dentro de export default defineConfig({:
+  test: {
+    globals: true
+  },
+# e na primeira linha do arquivo adicionar:
+/// <reference types="vitest"/>
+
+# em tsconfig.json, dentro de compilerOptions:
+    "isolatedModules": false,
+    "allowJs": true,
+    "types": ["vitest/globals"]
+	
+# dentro de include criar mais uma posição ..,"test"]
+
+yarn add axios
+# pra fazer requisições para o backend
+
+yarn add cors @types/cors
+# instala o cors no backend
+

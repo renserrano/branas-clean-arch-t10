@@ -228,6 +228,9 @@ test("Deve criar um pedido com 1 produto em dólar usando um fake", async functi
     const productRepository: ProductRepository = {
         async getProduct(idProduct: number): Promise<any> {
             return new Product(6, "A", 1000, 10, 10, 10, 10, "USD");
+        },
+        async getProducts(): Promise<Product[]> {
+            return [];
         }
     }
     checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository);
