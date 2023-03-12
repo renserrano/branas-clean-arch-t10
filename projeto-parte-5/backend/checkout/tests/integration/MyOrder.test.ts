@@ -6,8 +6,10 @@ import OrderRepositoryDatabase from "../../src/infra/repository/OrderRepositoryD
 import crypto from "crypto";
 import Product from "../../src/domain/entity/Product";
 import Coupon from "../../src/domain/entity/Coupon";
-import FreightCalculator from "../../src/domain/entity/FreightCalculator";
 import CurrencyTable from "../../src/domain/entity/CurrencyTable";
+import FreightGateway, { Input as FreightInput, Output as FreightOutput } from "../../src/application/gateway/FreightGateway";
+import FreightGatewayHttp from "../../src/infra/gateway/FreightGatewayHttp";
+import AxiosAdapter from "../../src/infra/http/AxiosAdapter";
 
 test("Deve criar um order com 3 produtos e calcular o total", function () {
     const uuid = crypto.randomUUID();
@@ -74,12 +76,28 @@ test("O peso do item não pode ser negativo", function () {
     }).toThrowError("Invalid dimension");
 });
 
-test("Deve calcular o valor do frete com base nas dimensões (altura, largura, profundidade em cm) e o peso dos produtos (em KG)", function () {   
-    expect(FreightCalculator.calculate(new Product(1, "Guitarra", 30.0, 100, 30, 10, 3, "BRL"))).toBe(30);
+test("Deve calcular o valor do frete com base nas dimensões (altura, largura, profundidade em cm) e o peso dos produtos (em KG)", async function () {      
+    const product = new Product(1, "Guitarra", 30.0, 100, 30, 10, 3, "BRL");
+    const freightInput: FreightInput = { items: [] };
+    freightInput.items.push({ width: product.width, height: product.height, length: product.length, weight: product.weight, quantity: 1 });
+    let freightOutput: FreightOutput;
+    let freightGateway: FreightGateway;
+    const httpClient = new AxiosAdapter();
+    freightGateway = new FreightGatewayHttp(httpClient);
+    freightOutput = await freightGateway.calculateFreight(freightInput);
+    expect(freightOutput.freight).toBe(30);
 });
 
-test("Deve retornar o preço mínimo de frete caso ele seja superior ao valor calculado", function () {
-    expect(FreightCalculator.calculate(new Product(1, "Camera", 130.00, 20, 15, 10, 1, "BRL"))).toBe(10);
+test("Deve retornar o preço mínimo de frete caso ele seja superior ao valor calculado", async function () {
+    const product = new Product(1, "Camera", 130.00, 20, 15, 10, 1, "BRL");
+    const freightInput: FreightInput = { items: [] };
+    freightInput.items.push({ width: product.width, height: product.height, length: product.length, weight: product.weight, quantity: 1 });
+    let freightOutput: FreightOutput;
+    let freightGateway: FreightGateway;
+    const httpClient = new AxiosAdapter();
+    freightGateway = new FreightGatewayHttp(httpClient);
+    freightOutput = await freightGateway.calculateFreight(freightInput);    
+    expect(freightOutput.freight).toBe(10);
 });
 
 test("Deve fazer um order salvando no banco de dados", async function () {

@@ -15,11 +15,14 @@ import CouponRepository from "../../src/application/repository/CouponRepository"
 import OrderRepository from "../../src/application/repository/OrderRepository";
 import AxiosAdapter from "../../src/infra/http/AxiosAdapter";
 import HttpClient from "../../src/infra/http/HttpClient";
+import FreightGatewayHttp from "../../src/infra/gateway/FreightGatewayHttp";
+import FreightGateway from "../../src/application/gateway/FreightGateway";
 
 let checkout: Checkout;
 let getOrder: GetOrder;
 let connection: Connection;
 let currencyGateway: CurrencyGateway;
+let freightGateway: FreightGateway;
 let productRepository: ProductRepository;
 let couponRepository: CouponRepository;
 let orderRepository:  OrderRepository;
@@ -29,10 +32,11 @@ beforeEach(function () {
     connection = new MySqlAdapter();
     httpClient = new AxiosAdapter();
     currencyGateway = new CurrencyGatewayHttp(httpClient);
+    freightGateway = new FreightGatewayHttp(httpClient);
     productRepository = new ProductRepositoryDatabase(connection);
     couponRepository = new CouponRepositoryDatabase(connection);
     orderRepository = new OrderRepositoryDatabase(connection);
-    checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository);
+    checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freightGateway);
     getOrder = new GetOrder(orderRepository);
 });
 
@@ -233,7 +237,7 @@ test("Deve criar um pedido com 1 produto em dólar usando um fake", async functi
             return [];
         }
     }
-    checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository);
+    checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freightGateway);
     const input = {
         cpf: "407.302.170-27",
         items: [

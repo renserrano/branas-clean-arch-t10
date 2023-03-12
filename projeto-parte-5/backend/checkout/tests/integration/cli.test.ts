@@ -13,6 +13,8 @@ import OrderRepository from "../../src/application/repository/OrderRepository";
 import OrderRepositoryDatabase from "../../src/infra/repository/OrderRepositoryDatabase";
 import ProductRepository from "../../src/application/repository/ProductRepository";
 import ProductRepositoryDatabase from "../../src/infra/repository/ProductRepositoryDatabase";
+import FreightGateway from "../../src/application/gateway/FreightGateway";
+import FreightGatewayHttp from "../../src/infra/gateway/FreightGatewayHttp";
 
 let connection: Connection;
 let currencyGateway: CurrencyGateway;
@@ -20,11 +22,13 @@ let productRepository: ProductRepository;
 let couponRepository: CouponRepository;
 let orderRepository: OrderRepository;
 let httpClient: HttpClient;
+let freightGateway: FreightGateway;
 
 beforeEach(function () {
     connection = new MySqlAdapter();
     httpClient = new AxiosAdapter();
     currencyGateway = new CurrencyGatewayHttp(httpClient);
+    freightGateway = new FreightGatewayHttp(httpClient);
     productRepository = new ProductRepositoryDatabase(connection);
     couponRepository = new CouponRepositoryDatabase(connection);
     orderRepository = new OrderRepositoryDatabase(connection);
@@ -35,7 +39,7 @@ afterEach(async function () {
 });
 
 test("Deve testar o cli", async function () {
-    const checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository);
+    const checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freightGateway);
     let output: any;
     const handler = new class extends CLIHandler {
         write(text: string): void {
