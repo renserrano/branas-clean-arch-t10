@@ -21,7 +21,7 @@ yarn add ts-node
 ----- vue js ------
 
 yarn create vite
-# ferramenta scafold, eexcutar testes usando vtestes
+# ferramenta scafold wizard, eexcutar testes usando vtestes
 
 # dentro da pasta do projeto:
 yarn install
