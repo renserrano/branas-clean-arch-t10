@@ -7,6 +7,7 @@ import ProductRepository from "../repository/ProductRepository";
 import Cpf from "../../domain/entity/Cpf";
 import Order from "../../domain/entity/Order";
 import FreightGateway, { Input as FreightInput } from "../gateway/FreightGateway";
+import CatalogGateway from "../gateway/CatalogGateway";
 
 export default class Checkout {
 
@@ -15,7 +16,8 @@ export default class Checkout {
 		readonly productRepository: ProductRepository,
 		readonly couponRepository: CouponRepository,
 		readonly orderRepository: OrderRepository,
-		readonly freightGateway: FreightGateway
+		readonly freightGateway: FreightGateway,
+		readonly catalogGateway: CatalogGateway
 	) {
 
 	}
@@ -29,7 +31,8 @@ export default class Checkout {
 		const freightInput: FreightInput = { items: [] };
 		if (input.items) {
 			for (const item of input.items) {
-				const product = await this.productRepository.getProduct(item.idProduct);
+				//const product = await this.productRepository.getProduct(item.idProduct);
+				const product = await this.catalogGateway.getProduct(item.idProduct);
 				order.addItem(product, item.quantity);
 				freightInput.items.push({ width: product.width, height: product.height, length: product.length, weight: product.weight, quantity: item.quantity });
 			}

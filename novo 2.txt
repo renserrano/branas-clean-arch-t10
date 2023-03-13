@@ -57,3 +57,8 @@ yarn add axios
 yarn add cors @types/cors
 # instala o cors no backend
 
+----------------------------
+
+cd backend/freight
+
+yarn remove @types/hapi__hapi
