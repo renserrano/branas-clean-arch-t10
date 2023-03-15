@@ -10,15 +10,17 @@ import OrderRepositoryDatabase from "./infra/repository/OrderRepositoryDatabase"
 import ProductRepositoryDatabase from "./infra/repository/ProductRepositoryDatabase";
 import GetProducts from "./application/usecase/GetProducts";
 import FreightGatewayHttp from "./infra/gateway/FreightGatewayHttp";
+import CatalogGatewayHttp from "./infra/gateway/CatalogGatewayHttp";
 
 const connection = new MySqlAdapter();
 const httpClient = new AxiosAdapter();
 const currencyGateway = new CurrencyGatewayHttp(httpClient);
 const freighGateway = new FreightGatewayHttp(httpClient);
+const catalogGateway = new CatalogGatewayHttp(httpClient);
 const productRepository = new ProductRepositoryDatabase(connection);
 const couponRepository = new CouponRepositoryDatabase(connection);
 const orderRepository = new OrderRepositoryDatabase(connection);
-const checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freighGateway);
+const checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freighGateway, catalogGateway);
 const getProducts = new GetProducts(productRepository);
 const httpServer = new ExpressAdapter();
 //const httpServer = new HapiHttpServer();
