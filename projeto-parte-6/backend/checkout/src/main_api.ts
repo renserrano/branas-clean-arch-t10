@@ -11,6 +11,8 @@ import ProductRepositoryDatabase from "./infra/repository/ProductRepositoryDatab
 import GetProducts from "./application/usecase/GetProducts";
 import FreightGatewayHttp from "./infra/gateway/FreightGatewayHttp";
 import CatalogGatewayHttp from "./infra/gateway/CatalogGatewayHttp";
+import AuthGatewayHttp from "./infra/gateway/AuthGatewayHttp";
+import AuthDecorator from "./application/decorator/AuthDecorator";
 
 const connection = new MySqlAdapter();
 const httpClient = new AxiosAdapter();
@@ -20,9 +22,10 @@ const catalogGateway = new CatalogGatewayHttp(httpClient);
 const productRepository = new ProductRepositoryDatabase(connection);
 const couponRepository = new CouponRepositoryDatabase(connection);
 const orderRepository = new OrderRepositoryDatabase(connection);
+ const authGateway = new AuthGatewayHttp(httpClient);
 const checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freighGateway, catalogGateway);
 const getProducts = new GetProducts(productRepository);
 const httpServer = new ExpressAdapter();
 //const httpServer = new HapiHttpServer();
-new HttpController(httpServer, checkout, getProducts);
+new HttpController(httpServer, new AuthDecorator(checkout, authGateway), getProducts);
 httpServer.listen(3000);

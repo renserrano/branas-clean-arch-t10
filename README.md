@@ -29,3 +29,8 @@ C:\dev\web\branas\branas-clean-arch-t10\projeto-parte-5\backend\freight
 
 npx ts-node src/main_api.ts
 npx jest
+
+C:\dev\web\branas\branas-clean-arch-t10\projeto-parte-6\backend\auth
+
+npx ts-node src/main_api.ts
+npx jest

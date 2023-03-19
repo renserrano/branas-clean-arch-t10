@@ -5,6 +5,8 @@ import CurrencyGatewayHttp from "./infra/gateway/CurrencyGatewayHttp";
 import MySqlAdapter from "./infra/database/MySqlAdapter";
 import OrderRepositoryDatabase from "./infra/repository/OrderRepositoryDatabase";
 import ProductRepositoryDatabase from "./infra/repository/ProductRepositoryDatabase";
+import FreightGatewayHttp from "./infra/gateway/FreightGatewayHttp";
+import CatalogGatewayHttp from "./infra/gateway/CatalogGatewayHttp";
 
 const input: Input = { cpf: "", items: [] };
 process.stdin.on("data", async function (chunk) {
@@ -24,7 +26,10 @@ process.stdin.on("data", async function (chunk) {
             const productRepository = new ProductRepositoryDatabase(connection);
             const couponRepository = new CouponRepositoryDatabase(connection);
             const orderRepository = new OrderRepositoryDatabase(connection);
-            const checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository);
+            const freightGateway = new FreightGatewayHttp(httpClient);
+            const catalogGateway = new CatalogGatewayHttp(httpClient);
+            // const authGateway = new AuthGatewayHttp(httpClient);
+            const checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freightGateway, catalogGateway);
             await checkout.execute(input);
             await connection.close();
         } catch (e: any) {

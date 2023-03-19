@@ -17,6 +17,7 @@ import FreightGateway from "../../src/application/gateway/FreightGateway";
 import FreightGatewayHttp from "../../src/infra/gateway/FreightGatewayHttp";
 import CatalogGatewayHttp from "../../src/infra/gateway/CatalogGatewayHttp";
 import CatalogGateway from "../../src/application/gateway/CatalogGateway";
+import AuthGateway from "../../src/application/gateway/AuthGateway";
 
 let connection: Connection;
 let currencyGateway: CurrencyGateway;
@@ -26,6 +27,7 @@ let orderRepository: OrderRepository;
 let httpClient: HttpClient;
 let freightGateway: FreightGateway;
 let catalogGateway: CatalogGateway;
+let authGateway: AuthGateway;
 
 beforeEach(function () {
     connection = new MySqlAdapter();
@@ -33,6 +35,7 @@ beforeEach(function () {
     currencyGateway = new CurrencyGatewayHttp(httpClient);
     freightGateway = new FreightGatewayHttp(httpClient);
     catalogGateway = new CatalogGatewayHttp(httpClient);
+    // authGateway = new AuthGatewayHttp(httpClient);
     productRepository = new ProductRepositoryDatabase(connection);
     couponRepository = new CouponRepositoryDatabase(connection);
     orderRepository = new OrderRepositoryDatabase(connection);

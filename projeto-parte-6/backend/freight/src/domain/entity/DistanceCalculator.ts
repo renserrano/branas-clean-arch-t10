@@ -1,8 +1,8 @@
-import Cep from "./Cep";
-
+import Coord from "./Coord";
+// domain service
 export default class DistanceCalculator {
 
-	static calculate (from: Cep, to: Cep) {
+	static calculate(from: Coord, to: Coord) {
 		if (from.lat == to.lat && from.long == to.long) return 0;
 		const radlat1 = (Math.PI * from.lat) / 180;
 		const radlat2 = (Math.PI * to.lat) / 180;
@@ -16,4 +16,5 @@ export default class DistanceCalculator {
 		dist = dist * 1.609344; //convert miles to km
 		return dist;
 	}
+
 }

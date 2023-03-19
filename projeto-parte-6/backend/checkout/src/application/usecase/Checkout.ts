@@ -8,8 +8,9 @@ import Cpf from "../../domain/entity/Cpf";
 import Order from "../../domain/entity/Order";
 import FreightGateway, { Input as FreightInput } from "../gateway/FreightGateway";
 import CatalogGateway from "../gateway/CatalogGateway";
+import Usecase from "./Usecase";
 
-export default class Checkout {
+export default class Checkout implements Usecase {
 
 	constructor(
 		readonly currencyGateway: CurrencyGateway,
@@ -28,7 +29,7 @@ export default class Checkout {
 		currencyTable.addCurrency("USD", currencies.usd);
 		const sequence = await this.orderRepository.count();
 		const order = new Order(input.uuid, new Customer("Passar nome aqui", new Cpf(input.cpf)), currencyTable, sequence, new Date())
-		const freightInput: FreightInput = { items: [] };
+		const freightInput: FreightInput = { items: [], from: input.from, to: input.to };
 		if (input.items) {
 			for (const item of input.items) {
 				//const product = await this.productRepository.getProduct(item.idProduct);
