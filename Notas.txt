@@ -23,12 +23,16 @@ yarn add ts-node
 yarn create vite
 # ferramenta scafold wizard, eexcutar testes usando vtestes
 
+  > escolhe Vue
+  > escolhe TypeScript
+
 # dentro da pasta do projeto:
 yarn install
 # instalar as dependências
 
 yarn dev
-# vai startar em uma porta, exemplo: 5173
+# vai startar a aplicação Vue em uma porta, exemplo: 5173
+http://127.0.0.1:5173/
 
 yarn add vitest
 # instala biblioteca de testes do vue @vue/test-utils happy-dom

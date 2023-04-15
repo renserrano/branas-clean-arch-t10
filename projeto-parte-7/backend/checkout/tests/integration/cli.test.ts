@@ -18,6 +18,10 @@ import FreightGatewayHttp from "../../src/infra/gateway/FreightGatewayHttp";
 import CatalogGatewayHttp from "../../src/infra/gateway/CatalogGatewayHttp";
 import CatalogGateway from "../../src/application/gateway/CatalogGateway";
 import AuthGateway from "../../src/application/gateway/AuthGateway";
+import StockGateway from "../../src/application/gateway/StockGateway";
+import Queue from "../../src/infra/queue/Queue";
+import StockGatewayHttp from "../../src/infra/gateway/StockGatewayHttp";
+import RabbitMQAdapter from "../../src/infra/queue/RabbitMQAdapter";
 
 let connection: Connection;
 let currencyGateway: CurrencyGateway;
@@ -28,8 +32,10 @@ let httpClient: HttpClient;
 let freightGateway: FreightGateway;
 let catalogGateway: CatalogGateway;
 let authGateway: AuthGateway;
+let stockGateway: StockGateway;
+let queue: Queue;
 
-beforeEach(function () {
+beforeEach(async function () {
     connection = new MySqlAdapter();
     httpClient = new AxiosAdapter();
     currencyGateway = new CurrencyGatewayHttp(httpClient);
@@ -39,6 +45,9 @@ beforeEach(function () {
     productRepository = new ProductRepositoryDatabase(connection);
     couponRepository = new CouponRepositoryDatabase(connection);
     orderRepository = new OrderRepositoryDatabase(connection);
+    stockGateway = new StockGatewayHttp(httpClient);
+    queue = new RabbitMQAdapter();    
+    await queue.connect();
 });
 
 afterEach(async function () {
@@ -46,7 +55,7 @@ afterEach(async function () {
 });
 
 test("Deve testar o cli", async function () {
-    const checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freightGateway, catalogGateway);
+    const checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freightGateway, catalogGateway, stockGateway, queue);
     let output: any;
     const handler = new class extends CLIHandler {
         write(text: string): void {

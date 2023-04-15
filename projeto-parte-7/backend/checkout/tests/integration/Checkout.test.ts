@@ -23,6 +23,10 @@ import AuthGateway from "../../src/application/gateway/AuthGateway";
 import AuthGatewayHttp from "../../src/infra/gateway/AuthGatewayHttp";
 import AuthDecorator from "../../src/application/decorator/AuthDecorator";
 import LogDecorator from "../../src/application/decorator/LogDecorator";
+import StockGateway from "../../src/application/gateway/StockGateway";
+import Queue from "../../src/infra/queue/Queue";
+import StockGatewayHttp from "../../src/infra/gateway/StockGatewayHttp";
+import RabbitMQAdapter from "../../src/infra/queue/RabbitMQAdapter";
 
 let checkout: Checkout;
 let getOrder: GetOrder;
@@ -35,8 +39,10 @@ let productRepository: ProductRepository;
 let couponRepository: CouponRepository;
 let orderRepository:  OrderRepository;
 let httpClient: HttpClient;
+let stockGateway: StockGateway;
+let queue: Queue;
 
-beforeEach(function () {
+beforeEach(async function () {
     connection = new MySqlAdapter();
     httpClient = new AxiosAdapter();
     currencyGateway = new CurrencyGatewayHttp(httpClient);
@@ -46,7 +52,10 @@ beforeEach(function () {
     couponRepository = new CouponRepositoryDatabase(connection);
     orderRepository = new OrderRepositoryDatabase(connection);
     authGateway = new AuthGatewayHttp(httpClient);
-    checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freightGateway, catalogGateway);
+    stockGateway = new StockGatewayHttp(httpClient);
+    queue = new RabbitMQAdapter();
+    await queue.connect();
+    checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freightGateway, catalogGateway, stockGateway, queue);
     getOrder = new GetOrder(orderRepository);
 });
 
@@ -245,7 +254,7 @@ test("Deve criar um pedido com 1 produto em dólar usando um fake", async functi
         }
     }
     const catalogGatewayStub = sinon.stub(CatalogGatewayHttp.prototype, "getProduct").resolves(new Product(6, "A", 1000, 10, 10, 10, 10, "USD"));
-    checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freightGateway, catalogGateway);
+    checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freightGateway, catalogGateway, stockGateway, queue);
     const input = {
         cpf: "407.302.170-27",
         items: [

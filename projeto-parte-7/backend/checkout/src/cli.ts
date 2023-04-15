@@ -7,6 +7,8 @@ import OrderRepositoryDatabase from "./infra/repository/OrderRepositoryDatabase"
 import ProductRepositoryDatabase from "./infra/repository/ProductRepositoryDatabase";
 import FreightGatewayHttp from "./infra/gateway/FreightGatewayHttp";
 import CatalogGatewayHttp from "./infra/gateway/CatalogGatewayHttp";
+import StockGatewayHttp from "./infra/gateway/StockGatewayHttp";
+import RabbitMQAdapter from "./infra/queue/RabbitMQAdapter";
 
 const input: Input = { cpf: "", items: [] };
 process.stdin.on("data", async function (chunk) {
@@ -29,7 +31,10 @@ process.stdin.on("data", async function (chunk) {
             const freightGateway = new FreightGatewayHttp(httpClient);
             const catalogGateway = new CatalogGatewayHttp(httpClient);
             // const authGateway = new AuthGatewayHttp(httpClient);
-            const checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freightGateway, catalogGateway);
+            const stockGateway = new StockGatewayHttp(httpClient);
+            const queue = new RabbitMQAdapter();
+            await queue.connect();
+            const checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freightGateway, catalogGateway, stockGateway, queue);
             await checkout.execute(input);
             await connection.close();
         } catch (e: any) {

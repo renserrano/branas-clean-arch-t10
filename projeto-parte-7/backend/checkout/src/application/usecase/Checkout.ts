@@ -9,6 +9,8 @@ import Order from "../../domain/entity/Order";
 import FreightGateway, { Input as FreightInput } from "../gateway/FreightGateway";
 import CatalogGateway from "../gateway/CatalogGateway";
 import Usecase from "./Usecase";
+import StockGateway from "../gateway/StockGateway";
+import Queue from "../../infra/queue/Queue";
 
 export default class Checkout implements Usecase {
 
@@ -18,7 +20,9 @@ export default class Checkout implements Usecase {
 		readonly couponRepository: CouponRepository,
 		readonly orderRepository: OrderRepository,
 		readonly freightGateway: FreightGateway,
-		readonly catalogGateway: CatalogGateway
+		readonly catalogGateway: CatalogGateway,
+		readonly stockGateway: StockGateway,
+		readonly queue: Queue
 	) {
 
 	}
@@ -49,6 +53,10 @@ export default class Checkout implements Usecase {
 		}		
 		let total = order.getTotal();		
 		await this.orderRepository.save(order);
+		// await this.stockGateway.decrementStock(input);
+		if (this.queue) {
+			await this.queue.publish("orderPlaced", input);
+		}
 		return {
 			total,
 			freight

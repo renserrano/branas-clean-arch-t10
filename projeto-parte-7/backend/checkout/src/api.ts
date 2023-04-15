@@ -10,6 +10,8 @@ import OrderRepositoryDatabase from "./infra/repository/OrderRepositoryDatabase"
 import ProductRepositoryDatabase from "./infra/repository/ProductRepositoryDatabase";
 import FreightGatewayHttp from "./infra/gateway/FreightGatewayHttp";
 import CatalogGatewayHttp from "./infra/gateway/CatalogGatewayHttp";
+import StockGatewayHttp from "./infra/gateway/StockGatewayHttp";
+import RabbitMQAdapter from "./infra/queue/RabbitMQAdapter";
 
 const app = express();
 app.use(express.json());
@@ -24,7 +26,10 @@ app.post("/checkout", async function (req: Request, res: Response) {
         const orderRepository = new OrderRepositoryDatabase(connection);
         const freightGateway = new FreightGatewayHttp(httpClient);
         const catalogGateway = new CatalogGatewayHttp(httpClient);
-        const checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freightGateway, catalogGateway);
+        const stockGateway = new StockGatewayHttp(httpClient);
+        const queue = new RabbitMQAdapter();
+        await queue.connect();
+        const checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freightGateway, catalogGateway, stockGateway, queue);
         const output = await checkout.execute(req.body);
         await connection.close();
         res.json(output);

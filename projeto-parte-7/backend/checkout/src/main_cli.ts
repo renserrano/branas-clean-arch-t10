@@ -10,6 +10,8 @@ import ProductRepositoryDatabase from "./infra/repository/ProductRepositoryDatab
 import FreightGatewayHttp from "./infra/gateway/FreightGatewayHttp";
 import CatalogGatewayHttp from "./infra/gateway/CatalogGatewayHttp";
 import AuthGatewayHttp from "./infra/gateway/AuthGatewayHttp";
+import StockGatewayHttp from "./infra/gateway/StockGatewayHttp";
+import RabbitMQAdapter from "./infra/queue/RabbitMQAdapter";
 
 const connection = new MySqlAdapter();
 const httpClient = new AxiosAdapter();
@@ -20,6 +22,9 @@ const orderRepository = new OrderRepositoryDatabase(connection);
 const freightGateway = new FreightGatewayHttp(httpClient);
 const catalogGateway = new CatalogGatewayHttp(httpClient);
 const authGateway = new AuthGatewayHttp(httpClient);
-const checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freightGateway, catalogGateway, authGateway);
+const stockGateway = new StockGatewayHttp(httpClient);
+const queue = new RabbitMQAdapter();
+// await queue.connect();
+const checkout = new Checkout(currencyGateway, productRepository, couponRepository, orderRepository, freightGateway, catalogGateway, authGateway, stockGateway, queue);
 const handler = new CLIHandlerNode();
 new CLIController(handler, checkout);
